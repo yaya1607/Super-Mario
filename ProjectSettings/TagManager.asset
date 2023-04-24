@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags: []
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - Player
+  - Water
+  - UI
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Background
+    uniqueID: 687044721
+    locked: 0
+  - name: Powerups
+    uniqueID: 4072066747
+    locked: 0
+  - name: Enemies
+    uniqueID: 3460199007
+    locked: 0
+  - name: Mario
+    uniqueID: 3308635937
+    locked: 0
+  - name: Pipes
+    uniqueID: 608537349
+    locked: 0
+  - name: Blocks
+    uniqueID: 914858963
+    locked: 0
+  - name: Default
+    uniqueID: 0
+    locked: 0
