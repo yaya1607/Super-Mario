@@ -52,7 +52,6 @@ public class Movement : MonoBehaviour
             Vector2 leftEdge = camera.ScreenToWorldPoint(Vector2.zero);
             Vector2 rightEdge = camera.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
             position.x = Mathf.Clamp(position.x, leftEdge.x + 0.5f, rightEdge.x - 0.5f);
-            if (position.x <= leftEdge.x) velocity.x = 0f;
         }
         rigidbody.MovePosition(position);
     }
@@ -63,12 +62,12 @@ public class Movement : MonoBehaviour
 
     protected virtual void SetAnim()
     {
-        if (velocity.x >= 1.5f)
+        if (velocity.x >= 0.5f)
         {
             anim.SetBool("Run", true);
             sprite.flipX = false;
         }
-        else if (velocity.x <= -1.5f)
+        else if (velocity.x <= -0.5f)
         {
             anim.SetBool("Run", true);
             sprite.flipX = true;

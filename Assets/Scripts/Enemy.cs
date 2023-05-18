@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public Sprite deadSprite;
     public Transform transform { get; protected set; }
     public Animator anim { get; protected set; }
+    public SpriteRenderer sprite { get; private set; }
     public Rigidbody2D rigidbody{ get; protected set; }
 
     protected virtual void Awake()
@@ -14,18 +16,19 @@ public class Enemy : MonoBehaviour
         transform = GetComponent<Transform>();
         anim = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody2D>();
+        sprite = GetComponent<SpriteRenderer>();
     }
     protected void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            if (transform.DotTest(collision.transform, Vector2.up,50f))
+            if (transform.DotTest(collision.transform, Vector2.up,60f))
             {
                 Trampled();
             }
             else
             {
-
+                GameObject.FindGameObjectWithTag("Player").SetActive(false);
             }
         }
     }
@@ -38,7 +41,8 @@ public class Enemy : MonoBehaviour
     protected virtual void Dead()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        anim.SetTrigger("Dead");
+        anim.enabled = false;
+        sprite.sprite = deadSprite;
         Physics2D.IgnoreCollision(player.GetComponent<Rigidbody2D>().GetComponent<Collider2D>(),rigidbody.GetComponent<Collider2D>(),true);
         Invoke(nameof(SetActive),1f);
     }

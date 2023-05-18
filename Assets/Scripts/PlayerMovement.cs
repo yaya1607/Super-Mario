@@ -33,8 +33,7 @@ public class PlayerMovement : Movement
     {
         gravity = (-2f * maxJumpHeight) / Mathf.Pow(maxJumpTime / 2f, 2f);
         grounded = rigidbody.Raycast(Vector2.down);
-
-        jumping = velocity.y > 1.5f;
+        jumping = !grounded;
         if (grounded)
         {
             GroundedMovement();
@@ -46,6 +45,10 @@ public class PlayerMovement : Movement
         direction = Input.GetAxis("Horizontal");
         base.HorizontalMovement();
 
+        if (direction == 0 && (velocity.x < 1 && velocity.x > -1))
+            velocity.x = 0;
+
+        //check if touch the wall Mario will stop moving
         if (rigidbody.Raycast(Vector2.right * velocity.x)) {
             velocity.x = 0f;
         }
@@ -56,7 +59,6 @@ public class PlayerMovement : Movement
         if (Input.GetButtonDown("Jump"))
         {
             velocity.y = jumpForce;
-            jumping = true;
         }
     }
 
@@ -76,7 +78,16 @@ public class PlayerMovement : Movement
             {
                 velocity.y = 0f;
             }
+            if (collision.gameObject.tag == "MysteryBlock")
+            {
+                if (transform.DotTest(collision.transform, Vector2.up, 45f))
+                {
+                    Debug.Log("hit");
+                    collision.gameObject.GetComponent<MysteryBlock>().Hit();
+                }
+            }
         }
+
     }
 
     protected override void SetAnim()
@@ -85,6 +96,10 @@ public class PlayerMovement : Movement
         if(jumping == true)
         {
             anim.SetTrigger("Jump");
+        }
+        else
+        {
+            anim.ResetTrigger("Jump");
         }
     }
 }
