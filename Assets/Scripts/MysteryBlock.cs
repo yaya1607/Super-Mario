@@ -12,7 +12,7 @@ public class MysteryBlock : MonoBehaviour
         Coin,
         Empty
     }
-    public SpriteRenderer sprite;
+    public SpriteRenderer sprite { get; private set; }
     public Sprite emptyBlock;
     public GameObject PowShroom;
     public Types selectedOption;

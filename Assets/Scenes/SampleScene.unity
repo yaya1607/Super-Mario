@@ -4468,7 +4468,8 @@ PrefabInstance:
       propertyPath: moveSpeed
       value: 3
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: e2c8fc9ff5177464199a022970f76f03, type: 3}
 --- !u!4 &1409386328 stripped
 Transform:
@@ -5503,7 +5504,8 @@ GameObject:
   - component: {fileID: 1763945939}
   - component: {fileID: 1763945931}
   - component: {fileID: 1763945936}
-  - component: {fileID: 1763945937}
+  - component: {fileID: 1763945940}
+  - component: {fileID: 1763945941}
   m_Layer: 3
   m_Name: Mario
   m_TagString: Player
@@ -5615,27 +5617,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.75, y: 1}
   m_Direction: 0
---- !u!95 &1763945937
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1763945930}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 1526eeeaf12b2bd428b26eede2ad710f, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &1763945939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5651,6 +5632,79 @@ MonoBehaviour:
   moveSpeed: 7.5
   maxJumpHeight: 4.2
   maxJumpTime: 1.2
+--- !u!114 &1763945940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1763945930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f827a14b96e672f4fb2e3d1a26379f87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smallSprite: {fileID: 21300000, guid: 316669850fc22b947a5ffd08a201559e, type: 3}
+  bigSprite: {fileID: 21300000, guid: 17d0f5a19508c994e86dbee100fa8269, type: 3}
+  big: 0
+--- !u!114 &1763945941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1763945930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d6f030a527d336408d07c2d23533728, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animations:
+  - name: Idle
+    animationSprites:
+    - {fileID: 21300000, guid: 316669850fc22b947a5ffd08a201559e, type: 3}
+    isLoop: 0
+    timePerAnimate: 0
+  - name: Run
+    animationSprites:
+    - {fileID: 21300000, guid: f8683836d7ce2e84ca96fcced8e51144, type: 3}
+    - {fileID: 21300000, guid: 35672984aa1fd894da6716da8832d93a, type: 3}
+    - {fileID: 21300000, guid: d819e2f75eeea5242b6de17737bb2268, type: 3}
+    isLoop: 1
+    timePerAnimate: 0.2
+  - name: Jump
+    animationSprites:
+    - {fileID: 21300000, guid: fe0645aacf16c3c4cab67a8ac2e3bc3a, type: 3}
+    isLoop: 0
+    timePerAnimate: 0
+  - name: Slide
+    animationSprites:
+    - {fileID: 21300000, guid: 98014fa15d2f2f84495aa2512e65cfba, type: 3}
+    isLoop: 0
+    timePerAnimate: 0
+  - name: Big_Idle
+    animationSprites:
+    - {fileID: 21300000, guid: 17d0f5a19508c994e86dbee100fa8269, type: 3}
+    isLoop: 0
+    timePerAnimate: 0
+  - name: Big_Run
+    animationSprites:
+    - {fileID: 21300000, guid: 70a814181cd2645409e832dd63d92fb0, type: 3}
+    - {fileID: 21300000, guid: c2e5aa3daa0fa16469ff9173a4c623fb, type: 3}
+    - {fileID: 21300000, guid: bd69c9ac1c7046d41862f618d99ca856, type: 3}
+    isLoop: 1
+    timePerAnimate: 0.2
+  - name: Big_Slide
+    animationSprites:
+    - {fileID: 21300000, guid: bfb02f37424e1504cb18192b8e445d43, type: 3}
+    isLoop: 0
+    timePerAnimate: 0
+  - name: Big_Jump
+    animationSprites:
+    - {fileID: 21300000, guid: 5772f9c35b012a14aac1cbcef7adfcea, type: 3}
+    isLoop: 0
+    timePerAnimate: 0
+  initialAnimationName: Idle
 --- !u!1001 &1771058251
 PrefabInstance:
   m_ObjectHideFlags: 0

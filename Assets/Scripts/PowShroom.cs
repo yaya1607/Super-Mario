@@ -40,11 +40,4 @@ public class PowShroom : MonoBehaviour
         this.movement.enabled = true;
         this.elapsed = 0;
     }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Player"))
-        {
-            this.gameObject.SetActive(false);
-        }
-    }
 }

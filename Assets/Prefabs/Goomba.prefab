@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: -8213743638203666430}
   - component: {fileID: -534125674127774042}
   - component: {fileID: 5707000168890512987}
-  - component: {fileID: -9047279082882802454}
   - component: {fileID: -892587781407341469}
+  - component: {fileID: -5618498870838835628}
   m_Layer: 6
   m_Name: Goomba
   m_TagString: Untagged
@@ -140,27 +140,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 7
   initialDirection: -1
---- !u!95 &-9047279082882802454
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2476016046605157571}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c26122ecea447b04e8e1ead457f9dcfc, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &-892587781407341469
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,3 +153,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deadSprite: {fileID: 21300000, guid: dceda839fbcc74441aef5f93f32bdc1a, type: 3}
+--- !u!114 &-5618498870838835628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2476016046605157571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d6f030a527d336408d07c2d23533728, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animations:
+  - name: Walk
+    animationSprites:
+    - {fileID: 21300000, guid: 56edcd414648ccd46810c8fb8d71f38f, type: 3}
+    - {fileID: 21300000, guid: 2ecd82c9f9059ce4d90acf918c441096, type: 3}
+    isLoop: 1
+    timePerAnimate: 0.2
+  - name: Dead
+    animationSprites:
+    - {fileID: 21300000, guid: dceda839fbcc74441aef5f93f32bdc1a, type: 3}
+    isLoop: 0
+    timePerAnimate: 0
+  initialAnimationName: Walk

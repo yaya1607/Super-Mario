@@ -12,6 +12,7 @@ public class PlayerMovement : Movement
     public bool running => Mathf.Abs(velocity.x) > 0.25f || Mathf.Abs(direction) > 0.25f;
     public bool sliding => (direction > 0f && velocity.x < 0f) || (direction < 0f && velocity.x > 0f);
     public bool falling => velocity.y < 0f && !grounded;
+    public bool big => GetComponent<Mario>().big;
 
     protected override void Awake()
     {
@@ -61,7 +62,66 @@ public class PlayerMovement : Movement
             velocity.y = jumpForce;
         }
     }
-
+    protected override void SetAnim()
+    {
+        if (!big)
+        {
+            if (grounded)
+            {
+                if(running && direction > 0 && !sliding)
+                {
+                    animation.ChangeAnimation("Run");
+                    sprite.flipX = false;
+                } 
+                else if (running && direction < 0 && !sliding)
+                {
+                    animation.ChangeAnimation("Run");
+                    sprite.flipX = true;
+                }
+                else if (sliding)
+                {
+                    animation.ChangeAnimation("Slide");
+                }
+                else
+                {
+                    animation.ChangeAnimation("Idle");
+                }
+            }
+            else
+            {
+                animation.ChangeAnimation("Jump");
+            }
+        }
+        else
+        {
+            if (grounded)
+            {
+                if (running && direction > 0 && !sliding)
+                {
+                    animation.ChangeAnimation("Big_Run");
+                    sprite.flipX = false;
+                }
+                else if (running && direction < 0 && !sliding)
+                {
+                    animation.ChangeAnimation("Big_Run");
+                    sprite.flipX = true;
+                }
+                else if (sliding)
+                {
+                    animation.ChangeAnimation("Big_Slide");
+                }
+                else
+                {
+                    animation.ChangeAnimation("Big_Idle");
+                }
+            }
+            else
+            {
+                animation.ChangeAnimation("Big_Jump");
+            }
+        }
+        
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
@@ -82,7 +142,6 @@ public class PlayerMovement : Movement
             {
                 if (transform.DotTest(collision.transform, Vector2.up, 45f))
                 {
-                    Debug.Log("hit");
                     collision.gameObject.GetComponent<MysteryBlock>().Hit();
                 }
             }
@@ -90,16 +149,4 @@ public class PlayerMovement : Movement
 
     }
 
-    protected override void SetAnim()
-    {
-        base.SetAnim();
-        if(jumping == true)
-        {
-            anim.SetTrigger("Jump");
-        }
-        else
-        {
-            anim.ResetTrigger("Jump");
-        }
-    }
 }

@@ -39,4 +39,18 @@ public class GoombaMovement : Movement
             }
         }
     }
+    protected override void SetAnim()
+    {
+
+        if (velocity.x > 0)
+        {
+            animation.ChangeAnimation("Walk");
+            sprite.flipX = false;
+        }
+        else 
+        {
+            animation.ChangeAnimation("Walk");
+            sprite.flipX = true;
+        }
+    }
 }

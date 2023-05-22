@@ -4,11 +4,11 @@ public class Movement : MonoBehaviour
 {
     public float moveSpeed = 8f;
 
+    protected AnimationScript animation;
     protected Rigidbody2D rigidbody;
     protected Collider2D collider;
     protected Camera camera;
     protected SpriteRenderer sprite;
-    protected Animator anim;
 
     protected float direction;
     protected float gravity ;
@@ -19,7 +19,7 @@ public class Movement : MonoBehaviour
         rigidbody = GetComponent<Rigidbody2D>();
         collider = GetComponent<Collider2D>();
         sprite = GetComponent<SpriteRenderer>();
-        anim = GetComponent<Animator>();
+        animation = GetComponent<AnimationScript>();
     }
     protected virtual void OnEnable()
     {
@@ -60,24 +60,7 @@ public class Movement : MonoBehaviour
         velocity.x = Mathf.MoveTowards(velocity.x, direction * moveSpeed, moveSpeed * Time.deltaTime);
     }
 
-    protected virtual void SetAnim()
-    {
-        if (velocity.x >= 0.5f)
-        {
-            anim.SetBool("Run", true);
-            sprite.flipX = false;
-        }
-        else if (velocity.x <= -0.5f)
-        {
-            anim.SetBool("Run", true);
-            sprite.flipX = true;
-        }
-        else
-        {
-            anim.SetBool("Run", false);
-        }
-    }
-
+    protected virtual void SetAnim(){}
     protected virtual void Update()
     {
         HorizontalMovement();
