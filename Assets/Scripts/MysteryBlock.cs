@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MysteryBlock : MonoBehaviour
+public class MysteryBlock : Block
 {
 
     public enum Types
@@ -14,6 +14,7 @@ public class MysteryBlock : MonoBehaviour
     }
     public SpriteRenderer sprite { get; private set; }
     public Sprite emptyBlock;
+    public GameObject coin;
     public GameObject PowShroom;
     public Types selectedOption;
 
@@ -21,44 +22,26 @@ public class MysteryBlock : MonoBehaviour
     {
         sprite = GetComponent<SpriteRenderer>();
     }
-    public void SmallHit() { }
-    public void Hit()
+
+    public override void SmallHit()
     {
-        if(selectedOption == Types.PowShroom)
+        base.SmallHit();
+        if (selectedOption == Types.PowShroom)
         {
-            StartCoroutine(Bounce());
             ShroomSpawn();
-            ChangeToEmptyBlock();
+        } 
+        else if (selectedOption == Types.Coin) 
+        {
+            CoinSpawn();
         }
+        ChangeToEmptyBlock();
     }
-
-    private IEnumerator Bounce()
+    public override void Hit()
     {
-
-        Vector3 bouncedPosition = new Vector3(this.transform.position.x, this.transform.position.y + 0.25f,this.transform.position.z),
-            originalPosition = this.transform.position;
-        
-        float duration = 0.1f;
-        float elapsed = 0;
-        while (elapsed <= duration)
-        {
-            Vector3 newPosition = Vector3.Lerp(originalPosition, bouncedPosition, elapsed / duration);
-            newPosition.z = originalPosition.z;
-            this.transform.position = newPosition;
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-        elapsed = 0;
-        while (elapsed <= duration)
-        {
-            Vector3 newPosition = Vector3.Lerp(bouncedPosition, originalPosition, elapsed / duration);
-            newPosition.z = originalPosition.z;
-            this.transform.position = newPosition;
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
+        //Big or small Mario is able to hit the mystery block.
+        base.Hit();
+        SmallHit();
     }
-
     private void ChangeToEmptyBlock()
     {
         this.gameObject.tag = "EmptyBlock";
@@ -70,4 +53,11 @@ public class MysteryBlock : MonoBehaviour
         Vector3 spawnPosition = new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z);
         Instantiate(PowShroom, spawnPosition, Quaternion.identity);
     }
+    private void CoinSpawn()
+    {
+        Vector3 spawnPosition = new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z);
+        Instantiate(coin, spawnPosition, Quaternion.identity);
+    }
+
+    
 }

@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 5754479339865348510}
   - component: {fileID: 5754479339865348511}
   - component: {fileID: 5754479339865348508}
+  - component: {fileID: 5291948810214379918}
+  - component: {fileID: -1168546211225951014}
   m_Layer: 0
   m_Name: Brick
   m_TagString: Untagged
@@ -74,12 +76,12 @@ SpriteRenderer:
   m_SortingLayerID: 914858963
   m_SortingLayer: -1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 788563315e9b2084bb2038de5663a161, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1beda731cfbf8e844917c86629c102c3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 2, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -94,16 +96,16 @@ BoxCollider2D:
   m_GameObject: {fileID: 5754479339865348509}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 2a673b6e7512c2e46858d35db4b2f182, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_UsedByComposite: 1
+  m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
+    oldSize: {x: 2, y: 2}
+    newSize: {x: 2, y: 2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -111,3 +113,45 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &5291948810214379918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5754479339865348509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d6f030a527d336408d07c2d23533728, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animations:
+  - name: Idle
+    animationSprites:
+    - {fileID: 21300000, guid: 1beda731cfbf8e844917c86629c102c3, type: 3}
+    isLoop: 0
+    isSingle: 1
+    timePerAnimate: 0
+  - name: Break
+    animationSprites:
+    - {fileID: 21300000, guid: 12fa515ee0d67c14382001326048a3aa, type: 3}
+    - {fileID: 21300000, guid: 1b772a867a6cd0644a53304790ab13cb, type: 3}
+    isLoop: 0
+    isSingle: 0
+    timePerAnimate: 0.1
+  initialAnimationName: Idle
+--- !u!114 &-1168546211225951014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5754479339865348509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fac89bc8e25c95047bf9296ffcaa5c4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brickBreak:
+  - {fileID: 21300000, guid: 12fa515ee0d67c14382001326048a3aa, type: 3}
+  - {fileID: 21300000, guid: 1b772a867a6cd0644a53304790ab13cb, type: 3}

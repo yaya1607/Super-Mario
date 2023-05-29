@@ -10,10 +10,19 @@ public class Goomba : Enemy
         base.Awake();
         movement = GetComponent<GoombaMovement>();
     }
-    protected override void Trampled()
+    public override void Trampled(float trampledDirection = 0)
     {
         base.Trampled();
         movement.enabled = false;
         Dead();
+    }
+
+
+    protected void Dead()
+    {
+        GameObject player = GameObject.Find("Mario");
+        GetComponent<AnimationScript>().ChangeAnimation("Dead");
+        Physics2D.IgnoreCollision(player.GetComponent<Rigidbody2D>().GetComponent<Collider2D>(), rigidbody.GetComponent<Collider2D>(), true);
+        Invoke(nameof(SetActiveFalse), 1f);
     }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
@@ -6,18 +7,26 @@ public class Movement : MonoBehaviour
 
     protected AnimationScript animation;
     protected Rigidbody2D rigidbody;
-    protected Collider2D collider;
+    protected CapsuleCollider2D collider;
     protected Camera camera;
     protected SpriteRenderer sprite;
 
     protected float direction;
     protected float gravity ;
     protected Vector2 velocity;
+    public void SetVelocity(Vector2 velocity)
+    {
+        this.velocity = velocity;
+    }
+    public void SetDirection(float direction)
+    {
+        this.direction = direction;
+    }
     protected virtual void Awake()
     {
         camera = Camera.main;
         rigidbody = GetComponent<Rigidbody2D>();
-        collider = GetComponent<Collider2D>();
+        collider = GetComponent<CapsuleCollider2D>();
         sprite = GetComponent<SpriteRenderer>();
         animation = GetComponent<AnimationScript>();
     }
@@ -47,7 +56,7 @@ public class Movement : MonoBehaviour
     {
         Vector2 position = rigidbody.position;
         position += velocity * Time.fixedDeltaTime;
-        if (this.gameObject.tag == "Player")
+        if (this.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             Vector2 leftEdge = camera.ScreenToWorldPoint(Vector2.zero);
             Vector2 rightEdge = camera.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
@@ -66,5 +75,14 @@ public class Movement : MonoBehaviour
         HorizontalMovement();
         ApplyGravity();
         SetAnim();
+    }
+    public void FallOut()
+    {
+        StartCoroutine(FallOutCoroutine());
+    }
+
+    protected virtual IEnumerator FallOutCoroutine()
+    {
+        return null;
     }
 }

@@ -75,8 +75,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -834768289
+  m_SortingLayer: -4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 56edcd414648ccd46810c8fb8d71f38f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -103,7 +103,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.75, y: 1}
   m_Direction: 0
 --- !u!50 &-534125674127774042
 Rigidbody2D:
@@ -121,7 +121,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 2a673b6e7512c2e46858d35db4b2f182, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -152,7 +152,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33998e28b5539884f99686f763963fb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deadSprite: {fileID: 21300000, guid: dceda839fbcc74441aef5f93f32bdc1a, type: 3}
 --- !u!114 &-5618498870838835628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171,10 +170,12 @@ MonoBehaviour:
     - {fileID: 21300000, guid: 56edcd414648ccd46810c8fb8d71f38f, type: 3}
     - {fileID: 21300000, guid: 2ecd82c9f9059ce4d90acf918c441096, type: 3}
     isLoop: 1
+    isSingle: 0
     timePerAnimate: 0.2
   - name: Dead
     animationSprites:
     - {fileID: 21300000, guid: dceda839fbcc74441aef5f93f32bdc1a, type: 3}
     isLoop: 0
+    isSingle: 1
     timePerAnimate: 0
   initialAnimationName: Walk

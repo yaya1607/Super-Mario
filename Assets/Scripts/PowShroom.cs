@@ -16,9 +16,9 @@ public class PowShroom : MonoBehaviour
     }
     public void StartExit(float elapsed)
     {
-        StartCoroutine(ExitTransition(elapsed));
+        StartCoroutine(ExitCoroutine(elapsed));
     }
-    private IEnumerator ExitTransition(float elapsed)
+    private IEnumerator ExitCoroutine(float elapsed)
     {
         this.rigidbody.isKinematic = true;
         this.movement.enabled = false;

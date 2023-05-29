@@ -125,5 +125,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   emptyBlock: {fileID: 21300000, guid: 0c057401fbf74454fa3032deae7f0a61, type: 3}
+  coin: {fileID: 5753227183023365359, guid: ac51adf25cd22e642ae1a38c626c2d0c, type: 3}
   PowShroom: {fileID: 184908450502274212, guid: a1f658ee91482ce4b892515b8419664f, type: 3}
   selectedOption: 0
