@@ -32,6 +32,30 @@ public static class Extensions
         }
         return listEnemy ;
     }
+    public static bool UndergroundPipeInCheck(this Rigidbody2D rigidbody)
+    {
+        float radius = 0.25f;
+        float distance = 0.265f;
+
+        RaycastHit2D hit = Physics2D.CircleCast(rigidbody.position, radius, Vector2.down, distance, layerMask);
+        return hit.collider.CompareTag("UndergroundPipeIn") && (Mathf.Abs(rigidbody.position.x - hit.collider.transform.position.x) <= 0.35) && hit.rigidbody != rigidbody;
+    }
+    public static bool UndergroundPipeOutCheck(this Rigidbody2D rigidbody, Vector2 direction)
+    {
+        if (direction == Vector2.zero)
+        {
+            return false;
+        }
+        Vector2 boxSize = new Vector2(0.1f, 0.25f);
+        float distance = 0.335f;
+
+        RaycastHit2D hit = Physics2D.BoxCast(rigidbody.position, boxSize, 0f, direction, distance, layerMask);
+        if(hit.collider != null)
+        {
+            return hit.collider.CompareTag("UndergroundPipeOut") && hit.rigidbody != rigidbody && Mathf.Abs(rigidbody.position.x - hit.collider.transform.position.x) < 1f;
+        }
+        return false;
+    }
     //This function has a bit difference from tutorial that it has angleInDegree to make more easy to change the angle of DotTest, just to make it more flexible.
     public static bool DotTest(this Transform transform, Transform other, Vector2 testDirection, float angleInDegrees)
     {

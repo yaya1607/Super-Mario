@@ -4,7 +4,7 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     public float moveSpeed = 8f;
-
+    
     protected AnimationScript animation;
     protected Rigidbody2D rigidbody;
     protected CapsuleCollider2D collider;
@@ -66,7 +66,7 @@ public class Movement : MonoBehaviour
     }
     protected virtual void HorizontalMovement()
     {
-        velocity.x = Mathf.MoveTowards(velocity.x, direction * moveSpeed, moveSpeed * Time.deltaTime);
+        velocity.x = Mathf.MoveTowards(velocity.x, direction * moveSpeed , moveSpeed * Time.deltaTime);
     }
 
     protected virtual void SetAnim(){}

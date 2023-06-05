@@ -14,7 +14,19 @@ public class Koopa : Enemy
         collider = GetComponent<CapsuleCollider2D>();
         isShell = false;
     }
-    public override void Trampled(float trampledDirection = 0)
+    private void OnBecameInvisible()
+    {
+        if (isShell)
+        {
+            this.gameObject.SetActive(false);
+        }
+    }
+    protected override void FallOut()
+    {
+        isShell = true;
+        base.FallOut();
+    }
+    public override void Trampled(float trampledDirection)
     {
         base.Trampled();
         //If the Koopa was not in the shell => Set it to cover in the shell.
@@ -31,9 +43,9 @@ public class Koopa : Enemy
         else
         {
             gameObject.layer = LayerMask.NameToLayer("SpinningShell");
-            movement.SetDirection(-trampledDirection);//Take a direction the Mario has trampled in the shell to make a spin in the opposite way.
-            movement.moveSpeed = 10;
-            movement.SetVelocity(new Vector2(10* -trampledDirection, 0));
+            movement.SetDirection(-trampledDirection);//Take a direction the Mario trampled in the shell to make a spin in the opposite way.
+            movement.moveSpeed = 8;
+            movement.SetVelocity(new Vector2(8* -trampledDirection, 0));
         }
     }
 }

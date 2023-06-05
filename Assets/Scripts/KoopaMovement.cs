@@ -39,10 +39,6 @@ public class KoopaMovement : Movement
                 velocity.x = -velocity.x;
             }
         }
-        else if (collision.gameObject.layer == LayerMask.NameToLayer("SpinningShell"))
-        {
-            FallOut();
-        }
     }
     protected override void SetAnim()
     {

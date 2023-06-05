@@ -9,6 +9,21 @@ public class Enemy : MonoBehaviour
     public SpriteRenderer sprite { get; private set; }
     public Rigidbody2D rigidbody{ get; protected set; }
 
+    protected virtual void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("SpinningShell"))
+        {
+            FallOut();
+        }
+        if (collision.collider.CompareTag("StarPlayer"))
+        {
+            FallOut();
+        }
+    }
+    protected virtual void FallOut()
+    {
+        GetComponent<Movement>().FallOut();
+    }
     protected virtual void Awake()
     {
         transform = GetComponent<Transform>();

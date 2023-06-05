@@ -6,7 +6,13 @@ TagManager:
   tags:
   - MysteryBlock
   - EmptyBlock
-  - BigPlayer
+  - PowShroom
+  - OneUpShroom
+  - Star
+  - UndergroundPipeIn
+  - UndergroundPipeOut
+  - StarPlayer
+  - FlagPole
   layers:
   - Default
   - TransparentFX
@@ -15,9 +21,9 @@ TagManager:
   - Water
   - UI
   - Enemy
-  - Shroom
+  - Collectable
   - SpinningShell
-  - 
+  - Trigger
   - 
   - 
   - 

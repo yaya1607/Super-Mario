@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,35 +10,31 @@ public class PlayerMovement : Movement
     public float maxJumpHeight = 5f;
     public float maxJumpTime = 1f;
     public float jumpForce => (2f * maxJumpHeight) / (maxJumpTime / 2f);
-
-    public Sprite smallSprite;
-    public Sprite bigSprite;
     public bool grounded { get; private set; }
     public bool jumping { get; private set; }
     public bool dead { get; private set; }
-    public bool running => (Mathf.Abs(velocity.x) > 0.15f || Mathf.Abs(direction) > 0.15f) && !dead;
+    public bool big { get; private set; }
+    public bool immune { get; private set; }
+    public bool star => gameObject.tag == "StarPlayer";
+    public bool running => (Mathf.Abs(velocity.x) > 0f || Mathf.Abs(direction) > 0.05f) && !dead;
     public bool sliding => ((direction > 0f && velocity.x < 0f) || (direction < 0f && velocity.x > 0f)) && !dead;
     public bool falling => velocity.y < 0f && !grounded && !dead;
-    public bool big => this.gameObject.tag == "BigPlayer";
 
 
     protected override void Awake()
     {
         base.Awake();
-        dead = false;
     }
 
     protected override void OnEnable()
     {
         base.OnEnable();
-        dead = false;
         jumping = false;
     }
 
     protected override void OnDisable()
     {
         base.OnDisable();
-        dead = false;
         jumping = false;
     }
     protected override void Update()
@@ -67,6 +64,13 @@ public class PlayerMovement : Movement
         if (Input.GetButtonDown("Jump"))
         {
             velocity.y = jumpForce;
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            if (rigidbody.UndergroundPipeInCheck())
+            {
+                StartCoroutine(EnterPipeCoroutine());
+            }
         }
     }
     protected override void SetAnim()
@@ -140,81 +144,107 @@ public class PlayerMovement : Movement
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy") || collision.gameObject.layer == LayerMask.NameToLayer("SpinningShell"))
         {
-            //Jump after trampled onto the enemy. 
-            if (transform.DotTest(collision.transform, Vector2.down,75f))
+            if (!immune && !star)
             {
-                velocity.y = jumpForce / 2f;
-                //Give Koopa the direction that Mario has trampled to make a spin in the opposite direction.
-                float trampledDirection = transform.position.x - collision.transform.position.x >= 0 ? 1 : -1;
-                collision.gameObject.GetComponent<Enemy>().Trampled(trampledDirection);
-            }
-            else
-            {
-                dead = true;
-                FallOut();
+                //Jump after trampled onto the enemy. 
+                if (transform.DotTest(collision.transform, Vector2.down, 65f))
+                {
+                    velocity.y = jumpForce / 2f;
+                }
             }
         }
         else if (collision.gameObject.layer == LayerMask.NameToLayer("Default"))
         {   //If you jump and hit the ceiling Mario will fall
-            if (transform.DotTest(collision.transform, Vector2.up,45f))
+            if (transform.DotTest(collision.transform, Vector2.up, big ? 25f : 45f))
             {
                 velocity.y = 0f;
             }
-            //Function to handle hitting the mystery block
-            if(collision.gameObject.tag != "EmptyBlock")
+        }
+    }
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Default"))
+        {   
+            if (collision.gameObject.CompareTag("UndergroundPipeOut"))
             {
-                if (transform.DotTest(collision.transform, Vector2.up, 45f) && jumping)
+                if (rigidbody.UndergroundPipeOutCheck(direction < 0 ? Vector2.left : direction > 0 ? Vector2.right : Vector2.zero))
                 {
-                    if(collision.gameObject.TryGetComponent<Block>(out Block block))
-                    {
-                        if (big)
-                        {
-                            block.Hit();
-                        }
-                        else
-                        {
-                            block.SmallHit();
-                        }
-                    }
-                    
+                    StartCoroutine(ExitPipeCoroutine());
                 }
             }
         }
-        //Eat Shroom
-        else if (collision.gameObject.layer == LayerMask.NameToLayer("Shroom"))
-        {
-            collision.gameObject.SetActive(false);
-            if (big)
-            {
-
-            }
-            else
-            {
-                StartCoroutine(PowerUpCoroutine());
-                this.gameObject.tag = "BigPlayer";
-                collider.size = new Vector2(0.75f, 2f);
-                collider.offset = new Vector2(0f, 0.5f);
-            }
-        }
+       
     }
-
-
-    private IEnumerator PowerUpCoroutine()
+    private IEnumerator EnterPipeCoroutine()
     {
-        float duration = 1f, elapsed = 0f;
-        animation.enabled = false;
-        Time.timeScale = 0.0f;
+        float durationPerUnit = 0.5f, elapsed = 0f, duration;
+        Time.timeScale = 0;
+        collider.enabled = false;
+        Vector3 downPosition = new Vector3(this.transform.position.x, this.transform.position.y - 5f, this.transform.position.z),
+            currentPosition = transform.position;
+        duration = durationPerUnit * (currentPosition.y - downPosition.y);//Calculate the distance to have exact duration.
         while (elapsed <= duration)
         {
-            if ((elapsed / 0.125f) % 2 == 0) sprite.sprite = smallSprite;
-            else sprite.sprite = bigSprite;
-            elapsed += 0.125f;
-            if (elapsed != duration)
-                yield return new WaitForSecondsRealtime(0.125f);
+            Vector3 newPosition = Vector3.Lerp(currentPosition, downPosition, elapsed / duration);
+            newPosition.z = downPosition.z;
+            this.transform.position = newPosition;
+            elapsed += 0.02f;
+            yield return new WaitForSecondsRealtime(0.02f);
         }
-        Time.timeScale = 1.0f;
-        animation.enabled = true;
+        Underground(true);
     }
+    private IEnumerator ExitPipeCoroutine()
+    {
+        float durationPerUnit = 0.5f, elapsed = 0f, duration;
+        Time.timeScale = 0;
+        collider.enabled = false;
+        //Enter the pipe
+        Vector3 innerPosition = new Vector3(this.transform.position.x + 1f * direction, this.transform.position.y, this.transform.position.z),
+            currentPosition = transform.position;
+        duration = durationPerUnit * Mathf.Abs(currentPosition.x - innerPosition.x);//Calculate the distance to have exact duration.
+        while (elapsed <= duration)
+        {
+            Vector3 newPosition = Vector3.Lerp(currentPosition, innerPosition, elapsed / duration);
+            newPosition.z = innerPosition.z;
+            this.transform.position = newPosition;
+            elapsed += 0.02f;
+            yield return new WaitForSecondsRealtime(0.02f);
+        }
+
+        Underground(false);
+        elapsed = 0f;
+
+        //Exit the pipe
+        currentPosition = new Vector3(transform.position.x + 2.25f, transform.position.y + 15.5f,transform.position.z);
+        Vector3 outterPosition = new Vector3(transform.position.x + 2.25f, transform.position.y + 19f, transform.position.z);
+        duration = durationPerUnit * Mathf.Abs(currentPosition.y - outterPosition.y);
+        while (elapsed <= duration)
+        {
+            Vector3 newPosition = Vector3.Lerp(currentPosition, outterPosition, elapsed / duration);
+            newPosition.z = outterPosition.z;
+            this.transform.position = newPosition;
+            elapsed += 0.02f;
+            yield return new WaitForSecondsRealtime(0.02f);
+        }
+        Time.timeScale = 1f;
+        collider.enabled = true;
+    }
+    private void Underground(bool underground)
+    {
+        if(underground == true)
+        {
+            Time.timeScale = 1f;
+            collider.enabled = true;
+            transform.position = new Vector3(GameManager.Instance.undergroundPositionX - 7f, GameManager.Instance.undergroundPositionY + 6f, transform.position.z);
+            camera.GetComponent<SideScrolling>().SetUnderground(true);
+        }
+        else
+        {
+            camera.GetComponent<SideScrolling>().SetUnderground(false);
+        }
+        
+    }
+
     protected override IEnumerator FallOutCoroutine()
     {
         float durationPerUnit = 0.15f, elapsed = 0f, duration;
@@ -227,7 +257,7 @@ public class PlayerMovement : Movement
         while (elapsed <= duration)
         {
             Vector3 newPosition = Vector3.Lerp(currentPosition, bouncedPosition, elapsed / duration);
-            newPosition.z = fallOutPosition.z;
+            newPosition.z = bouncedPosition.z;
             this.transform.position = newPosition;
             elapsed += 0.01f;
             yield return new WaitForSecondsRealtime(0.01f);
@@ -242,5 +272,17 @@ public class PlayerMovement : Movement
             elapsed += 0.01f;
             yield return new WaitForSecondsRealtime(0.01f);
         }
+    }
+    public void SetDead(bool isDead)
+    {
+        dead = isDead;
+    }
+    public void SetBig(bool isBig)
+    {
+        big = isBig;
+    }
+    public void SetImmune(bool isImmune)
+    {
+        immune = isImmune;
     }
 }

@@ -14,14 +14,14 @@ public class Goomba : Enemy
     {
         base.Trampled();
         movement.enabled = false;
-        Dead();
+        Flat();
     }
 
 
-    protected void Dead()
+    protected void Flat()
     {
-        GameObject player = GameObject.Find("Mario");
         GetComponent<AnimationScript>().ChangeAnimation("Dead");
+        GameObject player = GameObject.Find("Mario");
         Physics2D.IgnoreCollision(player.GetComponent<Rigidbody2D>().GetComponent<Collider2D>(), rigidbody.GetComponent<Collider2D>(), true);
         Invoke(nameof(SetActiveFalse), 1f);
     }

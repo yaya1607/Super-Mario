@@ -10,12 +10,12 @@ public class MysteryBlock : Block
     {
         PowShroom,
         Coin,
+        OneUpShroom,
+        Star,
         Empty
     }
     public SpriteRenderer sprite { get; private set; }
     public Sprite emptyBlock;
-    public GameObject coin;
-    public GameObject PowShroom;
     public Types selectedOption;
 
     private void Awake()
@@ -28,17 +28,41 @@ public class MysteryBlock : Block
         base.SmallHit();
         if (selectedOption == Types.PowShroom)
         {
-            ShroomSpawn();
+            PowShroomSpawn();
         } 
         else if (selectedOption == Types.Coin) 
         {
             CoinSpawn();
         }
+        else if(selectedOption == Types.OneUpShroom)
+        {
+            OneUpShroomSpawn();
+        }
+        else if (selectedOption == Types.Star)
+        {
+            StarSpawn();
+        }
+
         ChangeToEmptyBlock();
     }
+
+    private void StarSpawn()
+    {
+        Vector3 spawnPosition = new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z);
+        GameObject star = GameManager.Instance.GetStar(spawnPosition);
+        star.SetActive(true);
+    }
+
+    private void OneUpShroomSpawn()
+    {
+        Vector3 spawnPosition = new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z);
+        GameObject oneUpShroom = GameManager.Instance.GetOneUpShroom(spawnPosition);
+        oneUpShroom.SetActive(true);
+    }
+
     public override void Hit()
     {
-        //Big or small Mario is able to hit the mystery block.
+        //Big and small Mario are able to hit the mystery block.
         base.Hit();
         SmallHit();
     }
@@ -48,15 +72,17 @@ public class MysteryBlock : Block
         this.sprite.sprite = emptyBlock;
     }
 
-    private void ShroomSpawn()
+    private void PowShroomSpawn()
     {
         Vector3 spawnPosition = new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z);
-        Instantiate(PowShroom, spawnPosition, Quaternion.identity);
+        GameObject powShroom = GameManager.Instance.GetPowShroom(spawnPosition);
+        powShroom.SetActive(true);
     }
     private void CoinSpawn()
     {
         Vector3 spawnPosition = new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z);
-        Instantiate(coin, spawnPosition, Quaternion.identity);
+        GameObject coin = GameManager.Instance.GetCoin(spawnPosition);
+        coin.SetActive(true);
     }
 
     
